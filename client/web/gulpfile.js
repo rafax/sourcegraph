@@ -128,10 +128,8 @@ async function webpackDevelopmentServer() {
   }
 
   const server = new WebpackDevServer(options, createWebpackCompiler(webpackConfig))
-  await new Promise((resolve, reject) => {
-    signale.await('Waiting for Webpack to compile assets')
-    server.listen(3080, '0.0.0.0', error => (error ? reject(error) : resolve()))
-  })
+  signale.await('Waiting for Webpack to compile assets')
+  await server.start()
 }
 
 const developmentServer = DEV_WEB_BUILDER === 'webpack' ? webpackDevelopmentServer : esbuildDevelopmentServer

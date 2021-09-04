@@ -43,6 +43,7 @@ export async function startDevelopmentServer(): Promise<void> {
         historyApiFallback: {
             disableDotRule: true,
         },
+        host: '0.0.0.0',
         port: SOURCEGRAPH_HTTPS_PORT,
         client: {
             overlay: false,
@@ -67,10 +68,10 @@ export async function startDevelopmentServer(): Promise<void> {
         })
     )
 
-    server.listen(SOURCEGRAPH_HTTPS_PORT, '0.0.0.0', () => {
-        signale.success(`Development server is ready at ${chalk.blue.bold(WEB_SERVER_URL)}`)
-        signale.await('Waiting for Webpack to compile assets')
-    })
+    await server.start()
+
+    signale.success(`Development server is ready at ${chalk.blue.bold(WEB_SERVER_URL)}`)
+    signale.await('Waiting for Webpack to compile assets')
 }
 
 startDevelopmentServer().catch(error => signale.error(error))
